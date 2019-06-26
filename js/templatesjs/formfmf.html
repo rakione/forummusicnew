@@ -1,0 +1,22 @@
+<form>
+    <div ng-repeat="elem in form" >
+        <div class="form-group" ng-if="elem.type == 'text'">
+            <label>{{elem.text}}</label>
+            <input type="text" class="form-control"  placeholder="{{elem.placeholder}}" ng-model="elemform[elem.slug]" />
+        </div>
+        <div class="custom-control custom-switch" ng-if="elem.type == 'switch'">
+            <input type="checkbox" class="custom-control-input" ng-model="elemform[elem.slug]">
+            <label class="custom-control-label" for="customSwitch1" ng-click="changeelement(elem.slug)" >{{elem.text}}</label>
+        </div>
+        <div class="form-group" ng-if="elem.type == 'textarea'">
+            <label>{{elem.text}}</label>
+            <ng-quill-editor 
+                ng-model="elemform[elem.slug]" 
+                on-editor-created="editorCreated(editor)" 
+                on-content-changed="contentChanged(editor, html, text)"
+                >
+            </ng-quill-editor>
+        </div>
+    </div>
+    <button type="button" ng-click="send({dataform:elemform})" class="btn btn-primary btn-xs" >Submit</button>
+</form>
