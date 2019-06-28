@@ -107,21 +107,90 @@ fmfreservation.controller('packagectrl', ['$scope','$http','$sce','$q','$window'
             $scope.$apply();
         });
     }
-    /*
-    db.collection("packages").add({
-        extract: 'Gold-rated performing groups from previous festival seasons are invited to perform in a "best of the best" competition. including lodging and breakfast.',
-        overnight: true,
-        locking_day: 60
-    })
-    .then(function(docRef) {
-        console.log("Document written with ID: ", docRef.id);
-    })
-    .catch(function(error) {
-        console.error("Error adding document: ", error);
-    });
-    */
-
-
-
-
 }]);
+
+fmfreservation.controller('locationctrl', ['$scope','$http','$sce','$q','$window', function($scope,$http,$sce,$q,$window) {
+    
+    $scope.location=[];
+    
+    $scope.list=[
+        {value:"id",name:"ID"},
+        {value:"title",name:"Title"},
+    ];
+
+    $scope.formlocation=[
+        {type:"text",text:"Title",slug:"title"},
+    ]
+
+    $scope.deletelocation = function(index){
+        db.collection("locations").doc($scope.location[index].id).delete().then(function() {
+            console.log("Document successfully deleted!");
+            $window.location.href = pack.url+"/wp-admin/admin.php?page=locations";
+        }).catch(function(error) {
+            console.error("Error removing document: ", error);
+        });
+    }
+
+    $scope.editlocation = function(index){
+        $window.location.href = pack.url+"/wp-admin/admin.php?page=locations&action=edit&id="+$scope.location[index].id;
+    }
+
+    $scope.getlocation = function(id){
+        db.collection("locations").doc(id).get().then(function(doc) {
+            if (doc.exists) {
+                console.log("Document data:", doc.data());
+                $scope.locationdata = doc.data();
+                $scope.locationdata.id = doc.id;
+                $scope.$apply();
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        }).catch(function(error) {
+            console.log("Error getting document:", error);
+        });
+    }
+
+    $scope.updatelocation = function(dataform){
+        var id = angular.copy(dataform.id);
+        console.log(id);
+        delete dataform.id;
+        console.log(id);
+        
+        db.collection("locations").doc(id).update(dataform)
+        .then(function() {
+            alert("Document successfully updated!");
+            $window.location.href = pack.url+"/wp-admin/admin.php?page=locations";
+        })
+        .catch(function(error) {
+            // The document probably doesn't exist.
+            alert("Error updating document: ", error);
+        });
+        
+    }
+
+    $scope.createlocation = function(dataform) {
+        db.collection("locations").add(dataform)
+        .then(function(docRef) {
+            alert("Document written with ID: ", docRef.id);
+        })
+        .catch(function(error) {
+            alert(error);
+        });
+    }
+
+    $scope.updatetable = function(){
+        db.collection("locations").get().then((querySnapshot) => {
+            $scope.location = [];
+            var docs = [];
+            querySnapshot.forEach((doc) => {
+                var obj = doc.data();
+                obj.id = doc.id;
+                docs.push(obj);
+            });
+            $scope.location = angular.copy(docs); 
+            $scope.$apply();
+        });
+    }
+}]);
+
