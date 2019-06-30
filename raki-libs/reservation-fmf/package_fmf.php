@@ -22,7 +22,7 @@
             ?>
             <div class="wrap" ng-app = "fmfreservation" ng-controller = "packagectrl">
                 <h1 class="wp-heading-inline">Packages</h1>
-                <a href="<?php get_bloginfo('url')."wp-admin/admin.php?page=reservation_fmf&action=create"?>" class="page-title-action">Add New</a>
+                <a href="<?php echo get_bloginfo('url')."/wp-admin/admin.php?page=packages&action=create"?>" class="page-title-action">Add New</a>
                 <table-fmf headerlist="list" list="package" on-delete="deletepackage(index)" on-edit="editpackage(index)" ng-init="updatetable()" ></table-fmf>
             </div>
             <?php 

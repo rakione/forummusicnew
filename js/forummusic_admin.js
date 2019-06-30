@@ -39,7 +39,6 @@ fmfreservation.controller('packagectrl', ['$scope','$http','$sce','$q','$window'
 
     $scope.deletepackage = function(index){
         db.collection("packages").doc($scope.package[index].id).delete().then(function() {
-            console.log("Document successfully deleted!");
             $window.location.href = pack.url+"/wp-admin/admin.php?page=packages";
         }).catch(function(error) {
             console.error("Error removing document: ", error);
@@ -53,12 +52,10 @@ fmfreservation.controller('packagectrl', ['$scope','$http','$sce','$q','$window'
     $scope.getpackage = function(id){
         db.collection("packages").doc(id).get().then(function(doc) {
             if (doc.exists) {
-                console.log("Document data:", doc.data());
                 $scope.packagedata = doc.data();
                 $scope.packagedata.id = doc.id;
                 $scope.$apply();
             } else {
-                // doc.data() will be undefined in this case
                 console.log("No such document!");
             }
         }).catch(function(error) {
@@ -68,9 +65,7 @@ fmfreservation.controller('packagectrl', ['$scope','$http','$sce','$q','$window'
 
     $scope.updatepackage = function(dataform){
         var id = angular.copy(dataform.id);
-        console.log(id);
         delete dataform.id;
-        console.log(id);
         
         db.collection("packages").doc(id).update(dataform)
         .then(function() {
@@ -88,6 +83,7 @@ fmfreservation.controller('packagectrl', ['$scope','$http','$sce','$q','$window'
         db.collection("packages").add(dataform)
         .then(function(docRef) {
             alert("Document written with ID: ", docRef.id);
+            $window.location.href = pack.url+"/wp-admin/admin.php?page=packages";
         })
         .catch(function(error) {
             alert(error);
@@ -153,9 +149,7 @@ fmfreservation.controller('locationctrl', ['$scope','$http','$sce','$q','$window
 
     $scope.updatelocation = function(dataform){
         var id = angular.copy(dataform.id);
-        console.log(id);
         delete dataform.id;
-        console.log(id);
         
         db.collection("locations").doc(id).update(dataform)
         .then(function() {
@@ -173,6 +167,7 @@ fmfreservation.controller('locationctrl', ['$scope','$http','$sce','$q','$window
         db.collection("locations").add(dataform)
         .then(function(docRef) {
             alert("Document written with ID: ", docRef.id);
+            $window.location.href = pack.url+"/wp-admin/admin.php?page=locations";
         })
         .catch(function(error) {
             alert(error);
@@ -194,3 +189,99 @@ fmfreservation.controller('locationctrl', ['$scope','$http','$sce','$q','$window
     }
 }]);
 
+fmfreservation.controller('parkctrl', ['$scope','$http','$sce','$q','$window', function($scope,$http,$sce,$q,$window) {
+    
+    $scope.park=[];
+    
+    $scope.list=[
+        {name:"ID",value:"id"},
+        {name:"Title",value:"title"},
+        {name:"Price per Student",value:"ppstudent"},
+        {name:"Price Per Chaperone",value:"ppchaperone"},
+        {name:"Additional Information",value:"addinfo"},
+        {name:"Special Package",value:"specialpackage"},
+        {name:"Unselectable",value:"unselectable"},
+        {name:"Add text area",value:"addtext"},
+        {name:"Meal option prices",value:"mealsprice"}
+    ];
+
+    $scope.formpark=[
+        {type:"text",text:"Title",slug:"title"},
+        {type:"text",text:"Price per Student",slug:"ppstudent"},
+        {type:"text",text:"Price Per Chaperone",slug:"ppchaperone"},
+        {type:"textarea",text:"Additional Information",slug:"addinfo"},
+        {type:"switch",text:"Special Package",slug:"specialpackage"},
+        {type:"switch",text:"Unselectable",slug:"unselectable"},
+        {type:"switch",text:"Add text area",slug:"addtext"},
+        {type:"multitextinput",text:"Meal option prices",slug:"mealsprice"}
+    ]
+
+    $scope.deletepark = function(index){
+        db.collection("parks").doc($scope.park[index].id).delete().then(function() {
+            console.log("Document successfully deleted!");
+            $window.location.href = pack.url+"/wp-admin/admin.php?page=parks";
+        }).catch(function(error) {
+            console.error("Error removing document: ", error);
+        });
+    }
+
+    $scope.editpark = function(index){
+        $window.location.href = pack.url+"/wp-admin/admin.php?page=parks&action=edit&id="+$scope.park[index].id;
+    }
+
+    $scope.getpark = function(id){
+        db.collection("parks").doc(id).get().then(function(doc) {
+            if (doc.exists) {
+                console.log("Document data:", doc.data());
+                $scope.parkdata = doc.data();
+                $scope.parkdata.id = doc.id;
+                $scope.$apply();
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        }).catch(function(error) {
+            console.log("Error getting document:", error);
+        });
+    }
+
+    $scope.updatepark = function(dataform){
+        var id = angular.copy(dataform.id);
+        delete dataform.id;
+        
+        db.collection("parks").doc(id).update(dataform)
+        .then(function() {
+            alert("Document successfully updated!");
+            $window.location.href = pack.url+"/wp-admin/admin.php?page=parks";
+        })
+        .catch(function(error) {
+            // The document probably doesn't exist.
+            alert("Error updating document: ", error);
+        });
+    }
+
+    $scope.createpark = function(dataform) {
+        db.collection("parks").add(dataform)
+        .then(function(docRef) {
+            alert("Document written with ID: ", docRef.id);
+            $window.location.href = pack.url+"/wp-admin/admin.php?page=parks";
+        })
+        .catch(function(error) {
+            alert(error);
+        });
+    }
+
+    $scope.updatetable = function(){
+        db.collection("parks").get().then((querySnapshot) => {
+            $scope.park = [];
+            var docs = [];
+            querySnapshot.forEach((doc) => {
+                var obj = doc.data();
+                obj.id = doc.id;
+                docs.push(obj);
+            });
+            $scope.park = angular.copy(docs); 
+            $scope.$apply();
+        });
+    }
+}]);

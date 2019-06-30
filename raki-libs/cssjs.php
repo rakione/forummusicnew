@@ -7,7 +7,11 @@
 ***/
 
 function forummusic_css_admin() {
-	if(get_current_screen()->base=="toplevel_page_reservation_fmf"  || get_current_screen()->base=="reservations_page_packages"){	
+	if(get_current_screen()->base=="toplevel_page_reservation_fmf"  || 
+    get_current_screen()->base=="reservations_page_packages" ||
+    get_current_screen()->base=="reservations_page_locations" ||
+    get_current_screen()->base=="reservations_page_parks"
+        ){	
 		wp_register_style( 'bootstrap', "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", false, '3.3.6' );
         wp_register_style('quill_snow', "https://cdn.quilljs.com/1.3.6/quill.snow.css", false, '1.0.0');
         wp_register_style('quill_bubble', "https://cdn.quilljs.com/1.3.6/quill.bubble.css", false, '1.0.0');
@@ -17,15 +21,17 @@ function forummusic_css_admin() {
         wp_enqueue_style('quill_snow');
         wp_enqueue_style('quill_bubble');
         wp_enqueue_style('font-awesome');
-        wp_enqueue_style('style');
-        
-        
+        wp_enqueue_style('style');        
 	}
 }
 
 function forummusic_js_admin() {
-	
-	if(get_current_screen()->base=="toplevel_page_reservation_fmf" || get_current_screen()->base=="reservations_page_packages" ){
+    
+    if(get_current_screen()->base=="toplevel_page_reservation_fmf"  || 
+    get_current_screen()->base=="reservations_page_packages" ||
+    get_current_screen()->base=="reservations_page_locations" ||
+    get_current_screen()->base=="reservations_page_parks"
+    ){
 	    wp_register_script("firebase-app","https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js", false, "1");
 	    wp_register_script("firebase-firestore","https://www.gstatic.com/firebasejs/6.1.0/firebase-firestore.js", false, "1");
         wp_register_script('angularjs', "https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js", false, "1");
@@ -54,6 +60,7 @@ function forummusic_js_admin() {
             'pack',
             array( 
                 'ajaxurl' => admin_url( 'admin-ajax.php' ) ,
+                'sdurl' => get_bloginfo('stylesheet_directory'),
                 'url' => get_bloginfo('url')
             ) 
         );

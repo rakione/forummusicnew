@@ -12,29 +12,26 @@ function add_menu_items_reservation(){
         'dashicons-palmtree',
         6
     );
-    add_submenu_page( 'reservation_fmf', 'Package', 'Package','manage_options','packages', 'package_fmf_func');
-    //add_submenu_page( 'reservation_fmf', 'Hotel', 'Hotel','manage_options','hotel', 'hotel_func');
+    add_submenu_page( 'reservation_fmf', 'Packages', 'Packages','manage_options','packages', 'packages_fmf_func');
+    add_submenu_page( 'reservation_fmf', 'Locations', 'Locations','manage_options','locations', 'locations_fmf_func');
+    add_submenu_page( 'reservation_fmf', 'Parks', 'Parks','manage_options','parks', 'parks_fmf_func');
 }
 
 function reservation(){
 
 }
 
-function package_fmf_func(){
+function packages_fmf_func(){
     include "package_fmf.php";
 }
 
-/*
-function roomlist_func(){
-    if(!empty( $_GET["reservationid"]) && isset($_GET["reservationid"])){
-        include "templates/room_list.php";
-    }else{
-        //include "templates/schools.php";
-    }
+function locations_fmf_func(){
+    include "location_fmf.php";
 }
 
-function hotel_func(){
-    include "templates/hotel.php";
+function parks_fmf_func(){
+    include "park_fmf.php";
 }
-*/
+
+
 ?>
