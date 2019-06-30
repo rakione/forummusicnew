@@ -9,7 +9,7 @@ fmfdirectives.directive('tableFmf', [function () {
 			"delete":"&onDelete",
 			"edit":"&onEdit"
         },
-		templateUrl:"https://forumnew.wpengine.com/wp-content/themes/forumtravel/js/templatesjs/tablefmf.html",
+		templateUrl:pack.sdurl+"/js/templatesjs/tablefmf.html",
 		link: function (scope, iElement, iAttrs) {
 			scope.itemlist = [];
 			scope.$watch('list', function(newValue, oldValue) {
@@ -36,7 +36,7 @@ fmfdirectives.directive('formFmf', [function () {
 			dataform:"=",
 			send:"&onSend"
         },
-		templateUrl:"https://forumnew.wpengine.com/wp-content/themes/forumtravel/js/templatesjs/formfmf.html",
+		templateUrl:pack.sdurl+"/js/templatesjs/formfmf.html",
 		link: function (scope, iElement, iAttrs) {
 			scope.elemform={};
 			
@@ -59,6 +59,25 @@ fmfdirectives.directive('formFmf', [function () {
 	}
 }]);
 
+fmfdirectives.directive('multiTextInput', [function () {
+	return{
+		restrict:'E',
+		scope:{
+			ngModel:"=",
+			text:"="
+        },
+		templateUrl:pack.sdurl+"/js/templatesjs/multitextinput.html",
+		link: function (scope, iElement, iAttrs) {
+			
+			scope.add = function(){
+				scope.ngModel.push("");
+			}
+			scope.delete = function(index){
+				scope.ngModel.splice(index,1);
+			}
+		}
+	}
+}]);
 
 fmfdirectives.config(['ngQuillConfigProvider', function (ngQuillConfigProvider) {
 	ngQuillConfigProvider.set();

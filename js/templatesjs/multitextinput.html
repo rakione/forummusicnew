@@ -1,0 +1,16 @@
+<br>
+<br>
+<span>{{text}}</span>
+<div class="card">
+    <div class="card-body">
+        <table class="table table-borderless table-responsive-md" style="width: 100%;">
+            <tbody class="" id="table">
+                <tr ng-repeat="item in ngModel track by $index" >
+                    <td><input class="form-control listresponse" name="arr[]" ng-model="$parent.ngModel[$index]" /></td>
+                    <td><button type="button" class="btn btn-danger renglon_delete btn-sm" ng-click="delete($index)">Delete</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-success add-answer btn-sm"  ng-click="add($index)" >Add {{text}}</button>
+    </div>
+</div>
