@@ -1,0 +1,9 @@
+<span>{{text}}</span>
+<div class="card">
+    <div class="row">
+        <div class="custom-control custom-checkbox custom-control-inline"  ng-repeat="item in list track by $index" ng-class="class">
+            <input type="checkbox" class="custom-control-input" ng-model="$parent.ngModel[$index]" ng-value="item" />
+            <label class="custom-control-label">{{item.title}}</label>
+        </div>
+    </div>
+</div>

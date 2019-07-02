@@ -116,6 +116,7 @@ fmfreservation.controller('locationctrl', ['$scope','$http','$sce','$q','$window
 
     $scope.formlocation=[
         {type:"text",text:"Title",slug:"title"},
+        {type:"multicheckbox",text:"Parks",slug:"parks",list:[{title:"park one",id:"1234ere"},{title:"park two",id:"1234ere"}]}
     ]
 
     $scope.deletelocation = function(index){

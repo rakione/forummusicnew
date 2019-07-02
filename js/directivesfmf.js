@@ -79,9 +79,26 @@ fmfdirectives.directive('multiTextInput', [function () {
 	}
 }]);
 
+
+fmfdirectives.directive('multiCheckbox', [function () {
+	return{
+		restrict:'E',
+		scope:{
+			ngModel:"=",
+			text:"=",
+			list:"="
+        },
+		templateUrl:pack.sdurl+"/js/templatesjs/multicheckbox.html",
+		link: function (scope, iElement, iAttrs) {
+			console.log(scope.list);
+		}
+	}
+}]);
+
 fmfdirectives.config(['ngQuillConfigProvider', function (ngQuillConfigProvider) {
 	ngQuillConfigProvider.set();
 }]);
+
 fmfdirectives.controller('AppCtrl', [
 	'$scope',
 	'$timeout',
