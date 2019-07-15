@@ -24,17 +24,17 @@ fmfreservation.controller('packagectrl', ['$scope','$http','$sce','$q','$window'
         {value:"shortdescription",name:"Short Description"},
         {value:"overnight",name:"Overnight"},
         {value:"onlypark",name:"Only a park"},
-        {value:"lockingday",name:"Locking Day"}
+        {value:"lockingday",name:"Locking Day"},
+        {value:"dates",name:"dates"}
     ];
-
+    
     $scope.formpackage=[
         {type:"text",text:"Title",slug:"title"},
         {type:"textarea",text:"Content",slug:"content"},
         {type:"text",text:"Short description",slug:"shortdescription"},
         {type:"switch",text:"Overnight",slug:"overnight"},
         {type:"switch",text:"Only a park",slug:"onlypark"},
-        {type:"text",text:"Locking day",slug:"lockingday"},
-        
+        {type:"text",text:"Locking day",slug:"lockingday"}
     ]
 
     $scope.deletepackage = function(index){
@@ -112,10 +112,32 @@ fmfreservation.controller('locationctrl', ['$scope','$http','$sce','$q','$window
     $scope.list=[
         {value:"id",name:"ID"},
         {value:"title",name:"Title"},
+        {value:"dates",name:"dates"}
     ];
 
     $scope.formlocation=[
         {type:"text",text:"Title",slug:"title"},
+        {type:"tabledatafmf",
+            text:"Dates",slug:"dates",headerlist:[
+                {value:"date",name:"Date"},
+                {value:"amorpm",name:"AM or PM"},
+                {value:"addinfo",name:"Additional Information"},
+                {value:"public",name:"Public"},
+                {value:"allowres",name:"Allow Reservation"},
+                {value:"forumsa",name:"Forum Select Availble"},
+                {value:"lockingday",name:"Locking Day"}
+            ],
+            template:pack.sdurl+"/js/templatesjs/formdatefmf.html",
+            form:[
+                {type:"text",text:"Date",slug:"date"},
+                {type:"text",text:"AM or PM",slug:"amorpm"},
+                {type:"text",text:"Additional Information",slug:"addinfo"},
+                {type:"text",text:"Public",slug:"public"},
+                {type:"text",text:"Allow Reservation",slug:"allowres"},
+                {type:"text",text:"Forum Select Availble",slug:"forumsa"},
+                {type:"text",text:"Locking Day",slug:"lockingday"},
+            ]
+        },
         {type:"multicheckbox",text:"Parks",slug:"parks",list:[{title:"park one",id:"1234ere"},{title:"park two",id:"1234ere"}]}
     ]
 
@@ -135,7 +157,6 @@ fmfreservation.controller('locationctrl', ['$scope','$http','$sce','$q','$window
     $scope.getlocation = function(id){
         db.collection("locations").doc(id).get().then(function(doc) {
             if (doc.exists) {
-                console.log("Document data:", doc.data());
                 $scope.locationdata = doc.data();
                 $scope.locationdata.id = doc.id;
                 $scope.$apply();

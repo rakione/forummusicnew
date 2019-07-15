@@ -4,25 +4,28 @@ fmfdirectives.directive('tableFmf', [function () {
 	return{
 		restrict:'E',
 		scope:{
-            "headerlist":"=",
+			"headerlist":"=",
+			"ngModel":"=",
 			"list":"=",
 			"delete":"&onDelete",
-			"edit":"&onEdit"
+			"edit":"&onEdit",
+			"ifInteractive":"="
         },
 		templateUrl:pack.sdurl+"/js/templatesjs/tablefmf.html",
 		link: function (scope, iElement, iAttrs) {
 			scope.itemlist = [];
-			scope.$watch('list', function(newValue, oldValue) {
+			scope.$watch('ngModel', function(newValue, oldValue) {
 				if (newValue === oldValue) {
 				  return;
 				}
-				scope.list.forEach(element => {
+				scope.ngModel.forEach(element => {
 					var obj = {};
 					scope.headerlist.forEach(item => {
 						obj[item.value] = element[item.value];
 					});
 					scope.itemlist.push(obj);
 				});
+				console.log(scope.itemlist);
 			});
 		}
 	}
@@ -79,7 +82,6 @@ fmfdirectives.directive('multiTextInput', [function () {
 	}
 }]);
 
-
 fmfdirectives.directive('multiCheckbox', [function () {
 	return{
 		restrict:'E',
@@ -94,6 +96,82 @@ fmfdirectives.directive('multiCheckbox', [function () {
 		}
 	}
 }]);
+
+fmfdirectives.directive('tableDataFmf', [function () {
+	return{
+		restrict:'E',
+		scope:{
+			ngModel:"=",
+			text:"=",
+			headerlist:"=",
+			list:"=",
+			template:"=",
+			form:"="
+        },
+		templateUrl:pack.sdurl+"/js/templatesjs/tabledatafmf.html",
+		link: function (scope, iElement, iAttrs) {
+			scope.modalShown = false;
+			scope.toggleModal = function(){
+				scope.modalShown = !scope.modalShown;
+			}
+			scope.updatedate = function (params) {
+				
+				if(Array.isArray(scope.ngModel)){
+					scope.ngModel.push(params);	
+					console.log(scope.ngModel);
+				}else{
+					scope.ngModel=[];
+					scope.ngModel.push(params);
+					console.log(scope.ngModel);
+				}
+				scope.modalShown = !scope.modalShown;
+			}
+			scope.delete = function(index){
+				scope.ngModel.splice(index,1);
+			}
+		}
+	}
+}]);
+
+fmfdirectives.directive('modalDialog', function($window, $templateCache, $compile, $http) {
+	return {
+		restrict: 'E',
+		scope: {
+			ngModel:"=",
+			show: '=',
+			modal: '=',
+			form:"=",
+			save: '&',
+			template: '='
+		},
+		replace: true,
+		templateUrl:pack.sdurl+"/js/templatesjs/modalfmf.html",
+		link: function(scope, element, attrs) {
+			scope.dialogStyle = {};
+			if (attrs.width) {
+				scope.dialogStyle.width = attrs.width + '%';
+				scope.dialogStyle.left = ( ( 100 - attrs.width ) / 2 ) + '%';
+			}
+			if (attrs.height) {
+				scope.dialogStyle.height = attrs.height + '%';
+				scope.dialogStyle.top = ( ( 100 - attrs.height ) / 2 ) + '%';
+			}
+			scope.hideModal = function() {
+				scope.show = false;
+			};
+			scope.clone = function(obj) {
+				if (obj === null || typeof obj !== 'object') {
+					return obj;
+				}
+				var temp = obj.constructor(); // give temp the original obj's constructor
+				for (var key in obj) {
+					temp[key] = scope.clone(obj[key]);
+				}
+				return temp;
+			};
+		}
+	};
+});
 
 fmfdirectives.config(['ngQuillConfigProvider', function (ngQuillConfigProvider) {
 	ngQuillConfigProvider.set();
