@@ -1,0 +1,4 @@
+<h2 class="screen-reader-text">{{text}}</h2>
+<a  ng-click="toggleModal()" class="page-title-action">Add New</a>
+<table-fmf headerlist="headerlist"  ng-model="ngModel" on-delete="delete(index)" on-edit="editpa(index)" ng-init="updatetable()" if-interactive="true" ></table-fmf>
+<modal-dialog show='modalShown' width='95'height='95'template="template"></modal-dialog>

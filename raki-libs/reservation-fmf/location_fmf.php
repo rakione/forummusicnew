@@ -23,7 +23,7 @@
             <div class="wrap" ng-app = "fmfreservation" ng-controller = "locationctrl">
                 <h1 class="wp-heading-inline">Locations</h1>
                 <a href="<?php echo get_bloginfo('url')."/wp-admin/admin.php?page=locations&action=create"?>" class="page-title-action">Add New</a>
-                <table-fmf headerlist="list" list="location" on-delete="deletelocation(index)" on-edit="editlocation(index)" ng-init="updatetable()" ></table-fmf>
+                <table-fmf headerlist="list" ng-model="location" on-delete="deletelocation(index)" on-edit="editlocation(index)" ng-init="updatetable()" if-interactive="false"></table-fmf>
             </div>
             <?php 
             break;
