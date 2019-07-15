@@ -1,4 +1,4 @@
-var fmfdirectives = angular.module('fmfdirectives', ['ngQuill']);
+var fmfdirectives = angular.module('fmfdirectives', ['ngQuill','ui.bootstrap']);
 
 fmfdirectives.directive('tableFmf', [function () {
 	return{
@@ -42,7 +42,29 @@ fmfdirectives.directive('formFmf', [function () {
 		templateUrl:pack.sdurl+"/js/templatesjs/formfmf.html",
 		link: function (scope, iElement, iAttrs) {
 			scope.elemform={};
+
+			scope.popup1 = {
+				opened: false
+			  };
 			
+			scope.inlineOptions = {
+				customClass: getDayClass,
+				minDate: new Date(),
+				showWeeks: true
+			};
+			
+			scope.dateOptions = {
+				dateDisabled: disabled,
+				formatYear: 'yy',
+				maxDate: new Date(2020, 5, 22),
+				minDate: new Date(),
+				startingDay: 1
+			};
+
+			scope.open1 = function() {
+				scope.popup1.opened = true;
+			};
+
 			scope.changeelement = function(item){
 				if(typeof scope.elemform[item] === "boolean"){
 					scope.elemform[item] = !scope.elemform[item];
@@ -57,6 +79,34 @@ fmfdirectives.directive('formFmf', [function () {
 				}
 				scope.elemform=scope.dataform;
 			});
+
+			function getDayClass(data) {
+				var date = data.date,
+				  mode = data.mode;
+				if (mode === 'day') {
+				  var dayToCheck = new Date(date).setHours(0,0,0,0);
+			
+				  for (var i = 0; i < $scope.events.length; i++) {
+					var currentDay = new Date(scope.events[i].date).setHours(0,0,0,0);
+			
+					if (dayToCheck === currentDay) {
+					  return scope.events[i].status;
+					}
+				  }
+				}
+			
+				return '';
+			  }
+			
+			  function disabled(data) {
+				var date = data.date,
+				  mode = data.mode;
+				return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
+			  }
+			
+
+			
+
 		},
 		controller:'AppCtrl'
 	}

@@ -20,6 +20,15 @@
                 >
             </ng-quill-editor>
         </div>
+        <div class="" ng-if="elem.type == 'datepicker'">
+            <label>{{elem.text}}</label>
+            <p class="input-group">
+                <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="elemform[elem.slug]" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+            </p>
+        </div>  
         <multi-text-input text="elem.text" ng-if="elem.type == 'multitextinput'" ng-model="elemform[elem.slug]" ></multi-text-input>
         <multi-checkbox text="elem.text"  ng-if="elem.type == 'multicheckbox'" ng-model="elemform[elem.slug]" list="elem.list"></multi-checkbox>
         <table-data-fmf 
@@ -31,6 +40,7 @@
             template="elem.template"
             form="elem.form">            
         </table-data-fmf>
+        
     </div>
     <button type="button" ng-click="send({dataform:elemform})" class="btn btn-primary btn-xs" >Submit</button>
 </form>

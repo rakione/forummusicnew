@@ -129,7 +129,7 @@ fmfreservation.controller('locationctrl', ['$scope','$http','$sce','$q','$window
             ],
             template:pack.sdurl+"/js/templatesjs/formdatefmf.html",
             form:[
-                {type:"text",text:"Date",slug:"date"},
+                {type:"datepicker",text:"Date",slug:"date"},
                 {type:"text",text:"AM or PM",slug:"amorpm"},
                 {type:"text",text:"Additional Information",slug:"addinfo"},
                 {type:"text",text:"Public",slug:"public"},
