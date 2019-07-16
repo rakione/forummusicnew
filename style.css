@@ -122,3 +122,8 @@ button.btn.btn-primary.btn-calendarfmf {
   border-radius: 0 .25rem .25rem 0;
 }
 
+
+.card.card-list-checks {
+  width: 100%;
+  max-width: max-content;
+}

@@ -82,6 +82,7 @@ fmfdirectives.directive('formFmf', [function () {
 			}
 
 			scope.$watch('dataform', function(newValue, oldValue) {
+				console.log(scope);
 				if (newValue === oldValue) {
 				  return;
 				}
@@ -106,6 +107,7 @@ fmfdirectives.directive('formFmf', [function () {
 				var date = data.date, mode = data.mode;
 				return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
 			}
+
 		},
 		controller:'AppCtrl'
 	}
@@ -147,6 +149,12 @@ fmfdirectives.directive('multiCheckbox', [function () {
         },
 		templateUrl:pack.sdurl+"/js/templatesjs/multicheckbox.html",
 		link: function (scope, iElement, iAttrs) {
+			scope.$watch('list', function(newValue, oldValue) {
+				if (newValue === oldValue) {
+				  return;
+				}
+				console.log(scope.list);
+			});
 			
 		}
 	}

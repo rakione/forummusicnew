@@ -107,7 +107,8 @@ fmfreservation.controller('packagectrl', ['$scope','$http','$sce','$q','$window'
 
 fmfreservation.controller('locationctrl', ['$scope','$http','$sce','$q','$window', function($scope,$http,$sce,$q,$window) {
     
-    $scope.location=[];
+    $scope.location = [];
+    $scope.parks = [];
     
     $scope.list=[
         {value:"id",name:"ID"},
@@ -145,8 +146,7 @@ fmfreservation.controller('locationctrl', ['$scope','$http','$sce','$q','$window
                 {type:"switch",text:"show TDB text",slug:"tdbboolean"},
                 {type:"text",text:"TDB text",slug:"tdbtext"}
             ]
-        },
-        {type:"multicheckbox",text:"Parks",slug:"parks",list:[{title:"park one",id:"1234ere"},{title:"park two",id:"1234ere"}]}
+        }
     ]
 
     $scope.deletelocation = function(index){
@@ -217,6 +217,24 @@ fmfreservation.controller('locationctrl', ['$scope','$http','$sce','$q','$window
             $scope.$apply();
         });
     }
+    $scope.getparks = function(){
+        db.collection("parks").get().then((querySnapshot) => {
+            var docs = [];
+            querySnapshot.forEach((doc) => {
+                var obj = doc.data();
+                obj.id = doc.id;
+                docs.push(obj);
+            });
+            var parks = {
+                type:"multicheckbox",
+                text:"Parks",slug:"parks",
+                list:angular.copy(docs)
+            }
+            $scope.formlocation.push(parks);
+            $scope.$apply();
+        });
+    }
+    $scope.getparks();
 }]);
 
 fmfreservation.controller('parkctrl', ['$scope','$http','$sce','$q','$window', function($scope,$http,$sce,$q,$window) {
@@ -261,12 +279,10 @@ fmfreservation.controller('parkctrl', ['$scope','$http','$sce','$q','$window', f
     $scope.getpark = function(id){
         db.collection("parks").doc(id).get().then(function(doc) {
             if (doc.exists) {
-                console.log("Document data:", doc.data());
                 $scope.parkdata = doc.data();
                 $scope.parkdata.id = doc.id;
                 $scope.$apply();
             } else {
-                // doc.data() will be undefined in this case
                 console.log("No such document!");
             }
         }).catch(function(error) {
