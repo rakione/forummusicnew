@@ -135,7 +135,7 @@ fmfreservation.controller('locationctrl', ['$scope','$http','$sce','$q','$window
             form:[
                 {type:"text",text:"Title",slug:"title"},
                 {type:"datepicker",text:"Date",slug:"date"},
-                {type:"text",text:"AM or PM",slug:"amorpm"},
+                {type:"select",text:"AM or PM",slug:"amorpm",list:[{value:"am",text:"AM"},{value:"pm",text:"PM"}]},
                 {type:"text",text:"Additional Information",slug:"addinfo"},
                 {type:"switch",text:"Public",slug:"public"},
                 {type:"switch",text:"Allow Reservation",slug:"allowres"},

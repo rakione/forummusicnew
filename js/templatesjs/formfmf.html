@@ -20,7 +20,7 @@
                 >
             </ng-quill-editor>
         </div>
-        <div class="" ng-if="elem.type == 'datepicker'">
+        <div class="form-group" ng-if="elem.type == 'datepicker'">
             <label>{{elem.text}}</label>
             <p class="input-group">
                 <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="elemform[elem.slug]" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
@@ -29,6 +29,10 @@
                 </span>
             </p>
         </div>  
+        <div class="form-group" ng-if="elem.type == 'select'">
+            <label>{{elem.text}}</label>
+            <select class="form-control" ng-model="elemform[elem.slug]" ng-options="item as item.text for item in elem.list track by $index"></select>
+        </div>
         <multi-text-input text="elem.text" ng-if="elem.type == 'multitextinput'" ng-model="elemform[elem.slug]" ></multi-text-input>
         <multi-checkbox text="elem.text"  ng-if="elem.type == 'multicheckbox'" ng-model="elemform[elem.slug]" list="elem.list"></multi-checkbox>
         <table-data-fmf 
