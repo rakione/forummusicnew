@@ -25,7 +25,7 @@ fmfdirectives.directive('tableFmf', [function () {
 					});
 					scope.itemlist.push(obj);
 				});
-				console.log(scope.itemlist);
+				
 			});
 		}
 	}
@@ -35,12 +35,21 @@ fmfdirectives.directive('formFmf', [function () {
 	return{
 		restrict:'E',
 		scope:{
+			control:"=",
 			form:"=",
 			dataform:"=",
-			send:"&onSend"
+			send:"&onSend",
+			btndisabled:"="
         },
 		templateUrl:pack.sdurl+"/js/templatesjs/formfmf.html",
 		link: function (scope, iElement, iAttrs) {
+			
+			scope.internalControl = scope.control || {};
+
+			scope.internalControl.getmodelform = function(){
+				return scope.elemform;
+			}
+ 
 			scope.elemform={};
 
 			scope.popup1 = {
@@ -56,7 +65,6 @@ fmfdirectives.directive('formFmf', [function () {
 			scope.dateOptions = {
 				dateDisabled: disabled,
 				formatYear: 'yy',
-				maxDate: new Date(2020, 5, 22),
 				minDate: new Date(),
 				startingDay: 1
 			};
@@ -81,32 +89,23 @@ fmfdirectives.directive('formFmf', [function () {
 			});
 
 			function getDayClass(data) {
-				var date = data.date,
-				  mode = data.mode;
+				var date = data.date,mode = data.mode;
 				if (mode === 'day') {
-				  var dayToCheck = new Date(date).setHours(0,0,0,0);
-			
-				  for (var i = 0; i < $scope.events.length; i++) {
-					var currentDay = new Date(scope.events[i].date).setHours(0,0,0,0);
-			
-					if (dayToCheck === currentDay) {
-					  return scope.events[i].status;
+					var dayToCheck = new Date(date).setHours(0,0,0,0);
+					for (var i = 0; i < $scope.events.length; i++) {
+						var currentDay = new Date(scope.events[i].date).setHours(0,0,0,0);
+						if (dayToCheck === currentDay) {
+							return scope.events[i].status;
+						}
 					}
-				  }
 				}
-			
 				return '';
-			  }
+			}
 			
-			  function disabled(data) {
-				var date = data.date,
-				  mode = data.mode;
+			function disabled(data) {
+				var date = data.date, mode = data.mode;
 				return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
-			  }
-			
-
-			
-
+			}
 		},
 		controller:'AppCtrl'
 	}
@@ -123,8 +122,14 @@ fmfdirectives.directive('multiTextInput', [function () {
 		link: function (scope, iElement, iAttrs) {
 			
 			scope.add = function(){
-				scope.ngModel.push("");
+				if(Array.isArray(scope.ngModel)){
+					scope.ngModel.push("");	
+				}else{
+					scope.ngModel=[];
+					scope.ngModel.push("");	
+				}
 			}
+
 			scope.delete = function(index){
 				scope.ngModel.splice(index,1);
 			}
@@ -142,7 +147,7 @@ fmfdirectives.directive('multiCheckbox', [function () {
         },
 		templateUrl:pack.sdurl+"/js/templatesjs/multicheckbox.html",
 		link: function (scope, iElement, iAttrs) {
-			console.log(scope.list);
+			
 		}
 	}
 }]);
@@ -160,25 +165,41 @@ fmfdirectives.directive('tableDataFmf', [function () {
         },
 		templateUrl:pack.sdurl+"/js/templatesjs/tabledatafmf.html",
 		link: function (scope, iElement, iAttrs) {
+			scope.dialogStyle = {};
 			scope.modalShown = false;
+			scope.title = "Date for location";
+			scope.btnFalse = true;
+			scope.btnTrue = true;
+			scope.textActionFalse = "close";
+			scope.textActionTrue = "Add";
+			scope.btndisabled = true;
+
+			scope.fndata = {};
+
 			scope.toggleModal = function(){
 				scope.modalShown = !scope.modalShown;
 			}
-			scope.updatedate = function (params) {
-				
-				if(Array.isArray(scope.ngModel)){
-					scope.ngModel.push(params);	
-					console.log(scope.ngModel);
-				}else{
-					scope.ngModel=[];
-					scope.ngModel.push(params);
-					console.log(scope.ngModel);
-				}
-				scope.modalShown = !scope.modalShown;
-			}
+
 			scope.delete = function(index){
 				scope.ngModel.splice(index,1);
 			}
+
+			scope.actionFalse = function() {
+				scope.modalShown = false;
+			};
+
+			scope.actionTrue = function(){
+				var params = scope.fndata.getmodelform();
+				if(Array.isArray(scope.ngModel)){
+					scope.ngModel.push(params);	
+				}else{
+					scope.ngModel=[];
+					scope.ngModel.push(params);	
+				}
+				scope.modalShown = !scope.modalShown;
+			}
+
+			
 		}
 	}
 }]);
@@ -206,9 +227,7 @@ fmfdirectives.directive('modalDialog', function($window, $templateCache, $compil
 				scope.dialogStyle.height = attrs.height + '%';
 				scope.dialogStyle.top = ( ( 100 - attrs.height ) / 2 ) + '%';
 			}
-			scope.hideModal = function() {
-				scope.show = false;
-			};
+			
 			scope.clone = function(obj) {
 				if (obj === null || typeof obj !== 'object') {
 					return obj;
@@ -235,11 +254,11 @@ fmfdirectives.controller('AppCtrl', [
 		$scope.changeDetected = false;
 
 		$scope.editorCreated = function (editor) {
-			console.log(editor);
+			
 		};
 		$scope.contentChanged = function (editor, html, text) {
 			  $scope.changeDetected = true;
-			console.log('editor: ', editor, 'html: ', html, 'text:', text);
+			
 		};
 	}
 ]);

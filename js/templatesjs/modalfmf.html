@@ -1,8 +1,15 @@
 <div class='ng-modal' ng-if='show'>
     <div class='ng-modal-overlay'></div>
     <div class='ng-modal-dialog  card' ng-style='dialogStyle'>
+        <div class="card-header">
+            {{title}}
+        </div>
         <div class='ng-modal-dialog-content'>
             <div class="slide-animate" ng-include="template"></div>
+        </div>
+        <div class="card-footer">
+            <a ng-click="actionFalse()" ng-show="btnFalse" class="btn btn-primary">{{textActionFalse}}</a>
+            <a ng-click="actionTrue()" ng-show="btnTrue" class="btn btn-primary">{{textActionTrue}}</a>
         </div>
     </div>
 </div>

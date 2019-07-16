@@ -13,8 +13,12 @@ Text Domain: forummusic
 Tags: one-column, flexible-header, accessibility-ready, custom-colors, custom-menu, custom-logo, editor-style, featured-images, footer-widgets, rtl-language-support, sticky-post, threaded-comments, translation-ready
 */
 
-table-fmf {
+.table-fmf {
     font-size: 14px;
+}
+
+.table thead th {
+  white-space: nowrap;
 }
 
 .ng-modal-overlay {
@@ -107,3 +111,14 @@ table-fmf {
       -ms-animation: bounceOut .8s;
       animation: bounceOut .8s;
   }
+
+a.hide-modal {
+    position: absolute;
+    right: -16px;
+    top: -16px;
+}
+
+button.btn.btn-primary.btn-calendarfmf {
+  border-radius: 0 .25rem .25rem 0;
+}
+

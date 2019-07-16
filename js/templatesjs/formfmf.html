@@ -25,7 +25,7 @@
             <p class="input-group">
                 <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="elemform[elem.slug]" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
                 <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                    <button type="button" class="btn btn-primary btn-calendarfmf" ng-click="open1()"><i class="far fa-calendar-alt"></i></button>
                 </span>
             </p>
         </div>  
@@ -40,7 +40,6 @@
             template="elem.template"
             form="elem.form">            
         </table-data-fmf>
-        
     </div>
-    <button type="button" ng-click="send({dataform:elemform})" class="btn btn-primary btn-xs" >Submit</button>
+    <button type="button" ng-click="send({dataform:elemform})" class="btn btn-primary btn-xs" ng-if="!btndisabled">Submit</button>
 </form>

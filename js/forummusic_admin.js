@@ -119,23 +119,31 @@ fmfreservation.controller('locationctrl', ['$scope','$http','$sce','$q','$window
         {type:"text",text:"Title",slug:"title"},
         {type:"tabledatafmf",
             text:"Dates",slug:"dates",headerlist:[
+                {value:"title",name:"Title"},
                 {value:"date",name:"Date"},
                 {value:"amorpm",name:"AM or PM"},
                 {value:"addinfo",name:"Additional Information"},
                 {value:"public",name:"Public"},
                 {value:"allowres",name:"Allow Reservation"},
                 {value:"forumsa",name:"Forum Select Availble"},
-                {value:"lockingday",name:"Locking Day"}
+                {value:"lockingday",name:"Locking Day"},
+                {value:"unselectable",name:"Unselectable"},
+                {value:"tdbboolean",name:"show TDB text"},
+                {value:"tdbtext",name:"TDB text"}
             ],
             template:pack.sdurl+"/js/templatesjs/formdatefmf.html",
             form:[
+                {type:"text",text:"Title",slug:"title"},
                 {type:"datepicker",text:"Date",slug:"date"},
                 {type:"text",text:"AM or PM",slug:"amorpm"},
                 {type:"text",text:"Additional Information",slug:"addinfo"},
-                {type:"text",text:"Public",slug:"public"},
-                {type:"text",text:"Allow Reservation",slug:"allowres"},
-                {type:"text",text:"Forum Select Availble",slug:"forumsa"},
+                {type:"switch",text:"Public",slug:"public"},
+                {type:"switch",text:"Allow Reservation",slug:"allowres"},
+                {type:"switch",text:"Forum Select Availble",slug:"forumsa"},
                 {type:"text",text:"Locking Day",slug:"lockingday"},
+                {type:"switch",text:"Unselectable",slug:"unselectable"},
+                {type:"switch",text:"show TDB text",slug:"tdbboolean"},
+                {type:"text",text:"TDB text",slug:"tdbtext"}
             ]
         },
         {type:"multicheckbox",text:"Parks",slug:"parks",list:[{title:"park one",id:"1234ere"},{title:"park two",id:"1234ere"}]}
@@ -240,7 +248,6 @@ fmfreservation.controller('parkctrl', ['$scope','$http','$sce','$q','$window', f
 
     $scope.deletepark = function(index){
         db.collection("parks").doc($scope.park[index].id).delete().then(function() {
-            console.log("Document successfully deleted!");
             $window.location.href = pack.url+"/wp-admin/admin.php?page=parks";
         }).catch(function(error) {
             console.error("Error removing document: ", error);
