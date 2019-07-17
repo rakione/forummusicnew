@@ -103,6 +103,26 @@ fmfreservation.controller('packagectrl', ['$scope','$http','$sce','$q','$window'
             $scope.$apply();
         });
     }
+
+    $scope.getlocation = function(){
+        db.collection("locations").get().then((querySnapshot) => {
+            var docs = [];
+            querySnapshot.forEach((doc) => {
+                var obj = doc.data();
+                obj.id = doc.id;
+                docs.push(obj);
+            });
+            var locations = {
+                type:"multicheckbox",
+                text:"Locations",slug:"locations",
+                list:angular.copy(docs)
+            }
+            $scope.formpackage.push(locations);
+            console.log($scope.formpackage);
+            $scope.$apply();
+        });
+    }
+    $scope.getlocation();
 }]);
 
 fmfreservation.controller('locationctrl', ['$scope','$http','$sce','$q','$window', function($scope,$http,$sce,$q,$window) {
