@@ -1,0 +1,21 @@
+<form>
+    <div class="form-group">
+        <label>Users</label>
+        <select class="form-control" ng-model="reservation.user" ng-options="item as item.data.display_name+' -- '+item.data.user_email for item in users track by $index" ng-init="getusers()"></select>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Package</h5>
+                </div>
+                <div class="card-body">
+                    <div ng-repeat="item in packages track by $index">
+                        <input type="radio" ng-model="reservation.package" ng-value="item" ng-change="changepackage()" />
+                        <label for="customRadio1">{{item.title}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

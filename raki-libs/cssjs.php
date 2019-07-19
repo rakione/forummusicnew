@@ -35,7 +35,6 @@ function forummusic_js_admin() {
 	    wp_register_script("firebase-app","https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js", false, "1");
 	    wp_register_script("firebase-firestore","https://www.gstatic.com/firebasejs/6.1.0/firebase-firestore.js", false, "1");
         wp_register_script('angularjs', "https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js", false, "1");
-        //wp_register_script('rangy-core', "https://cdnjs.cloudflare.com/ajax/libs/rangy/1.3.0/rangy-core.js", false, "1");
         wp_register_script('angular-animate', "https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.js", false, "1");
         wp_register_script('angular-sanitize', "https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js", false, "1");
         wp_register_script('angular-ui-bootstrap', "https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.2.0/ui-bootstrap-tpls.min.js", false, "1");        
@@ -46,7 +45,6 @@ function forummusic_js_admin() {
         wp_enqueue_script('firebase-app');
         wp_enqueue_script('firebase-firestore');
         wp_enqueue_script('angularjs');
-        //wp_enqueue_script('rangy-core');
         wp_enqueue_script('angular-animate');
         wp_enqueue_script('angular-sanitize');
         wp_enqueue_script('angular-ui-bootstrap');

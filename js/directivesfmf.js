@@ -1,5 +1,23 @@
 var fmfdirectives = angular.module('fmfdirectives', ['ngQuill','ui.bootstrap']);
 
+fmfdirectives.directive('formReservationFmf', [function () {
+	return{
+		restrict:'E',
+		scope:{
+			users:"=",
+			packages:"="
+        },
+		templateUrl:pack.sdurl+"/js/templatesjs/formreservationfmf.html",
+		link: function (scope, iElement, iAttrs) {
+			scope.reservation = {};
+			scope.changepackage = function(){
+				console.log(scope.reservation);
+
+			}
+		}
+	}
+}]);
+
 fmfdirectives.directive('tableFmf', [function () {
 	return{
 		restrict:'E',
@@ -82,7 +100,6 @@ fmfdirectives.directive('formFmf', [function () {
 			}
 
 			scope.$watch('dataform', function(newValue, oldValue) {
-				console.log(scope);
 				if (newValue === oldValue) {
 				  return;
 				}

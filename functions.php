@@ -9,7 +9,7 @@
  
 include 'raki-libs/cssjs.php';
 
-/**************
+/******************
  * 
  * Reservation FMF
  * 
@@ -19,8 +19,14 @@ include 'raki-libs/cssjs.php';
 include "raki-libs/reservation-forum.php";
 
 
+/**************
+ * 
+ * Ajax FMF
+ * 
+ ****/
 
 
+include "raki-libs/ajax-fmf.php";
 
 
 ?>

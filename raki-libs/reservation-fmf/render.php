@@ -18,7 +18,7 @@ function add_menu_items_reservation(){
 }
 
 function reservation(){
-
+    include "reservation_fmf.php";
 }
 
 function packages_fmf_func(){

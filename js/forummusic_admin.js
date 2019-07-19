@@ -13,6 +13,35 @@ var db = firebase.firestore();
 
 var fmfreservation = angular.module('fmfreservation', ['ngAnimate', 'ngSanitize','ui.bootstrap','fmfdirectives']);
 
+fmfreservation.controller('reservationctrl', ['$scope','$http','$sce','$q','$window', function($scope,$http,$sce,$q,$window) {
+    $scope.users = [];
+    $scope.packages = [];
+
+    $http({
+        method : 'POST',
+        url : pack.ajaxurl,
+        data:  jQuery.param({'action':'users'}),
+        headers : {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}  
+    }).success(function(res){ 
+        $scope.users = angular.copy(res);
+    }).error(function(error){
+        alert(error);
+    });
+
+    db.collection("packages").get().then((querySnapshot) => {    
+        var docs = [];
+        querySnapshot.forEach((doc) => {
+            var obj = doc.data();
+            obj.id = doc.id;
+            docs.push(obj);
+        });
+        $scope.packages = angular.copy(docs); 
+        $scope.$apply();
+    });
+    
+}]);
+
+
 fmfreservation.controller('packagectrl', ['$scope','$http','$sce','$q','$window', function($scope,$http,$sce,$q,$window) {
     
     $scope.package=[];
